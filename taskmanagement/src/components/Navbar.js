@@ -1,30 +1,50 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import "../Styles/Navbar.css"
+import React from "react";
+import { Link , useNavigate} from "react-router-dom";
+import "../Styles/Navbar.css";
+
 export default function Navbar() {
+const history=useNavigate()
+  let authToken = localStorage.getItem("authToken");
+const logout=()=>{
+    localStorage.removeItem("authToken");
+    history("/Login");
+    window.alert("Logout Successfull")
+}
   return (
     <div>
-        <nav className="navbar navbar-expand-custom navbar-mainbg">
-        <Link className="navbar-brand navbar-logo" to="/">Navbar</Link>
-        <button className="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <i className="fas fa-bars text-white"></i>
-        </button>
+        <nav className="navbar navbar-expand-lg navbar-mainbg">
+            <div className="container-fluid">
+        <Link className="navbar-brand navbar-logo">
+          Navbar
+        </Link>
+        <button class="navbar-toggler border-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon" ></span>
+    </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav ml-auto">
-                <div className="hori-selector"><div className="left"></div><div className="right"></div></div>
-                <li className="nav-item">
-                    <Link className="nav-link" to="/"><i className="fas fa-tachometer-alt"></i>Home</Link>
-                </li>
+          <ul className="navbar-nav ml-auto">
 
-
-                <li className="nav-item">
-                    <Link className="nav-link" to="/Register"><i className="far fa-calendar-alt"></i>Sign Up</Link>
-                </li>
-
-
-            </ul>
+            {authToken ? (    <li className="nav-item">
+                <Link className="nav-link " to="/Login" onClick={logout}> 
+                  <i className="far fa-calendar-alt"></i>Home 
+                </Link>
+              </li>): null}
+            {!authToken && (
+              <li className="nav-item">
+                <Link className="nav-link" to="/Register"> Sign Up
+                </Link>
+              </li>
+            )}
+            {authToken ? (    <li className="nav-item">
+                <Link className="nav-link" to="/Login" onClick={logout}> 
+                  <i className="far fa-calendar-alt"></i>Log Out
+                </Link>
+              </li>): (null
+            )}
+          </ul>
         </div>
-    </nav>
+        </div>
+      </nav>
     </div>
-  )
+  );
 }
+

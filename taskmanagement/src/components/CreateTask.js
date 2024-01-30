@@ -1,10 +1,12 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { getDatabase, ref, set, get, push } from "firebase/database";
 import { v4 as uuidv4 } from "uuid";
-import { Link } from "react-router-dom";
+import { Link ,useNavigate} from "react-router-dom";
 import { db } from "./firebase/firebase";
 
 export default function CreateTask() {
+  let authToken = localStorage.getItem("authToken");
+  const history=useNavigate()
   const [listUsers, setlistUsers] = useState([]);
   const [taskData, settaskData] = useState({
     title: "",
@@ -48,6 +50,7 @@ export default function CreateTask() {
     e.preventDefault();
     if (!isValidData()) {
       console.error("Invalid data. Please check your inputs.");
+      window.alert("Invalid data. Please check your inputs.")
       return;
     }
 
@@ -64,6 +67,8 @@ export default function CreateTask() {
     })
       .then(() => {
         console.log("Task added successfully to Firebase");
+        history('/')
+        window.alert("Task added successfully ")
       })
       .catch((error) => {
         console.error("Error writing to Firebase:", error);
@@ -77,6 +82,7 @@ export default function CreateTask() {
 
   return (
     <div>
+   
       <form>
         <div className="mb-3">
           <label htmlFor="text" className="form-label">
@@ -105,7 +111,7 @@ export default function CreateTask() {
 
         <div className="d-flex">
           <div>
-            <label htmlFor="status" className="form-label">
+            <label htmlFor="status" className="form-label mx-2">
               status
             </label>
             <select
@@ -126,7 +132,7 @@ export default function CreateTask() {
               Assigned User
             </label>
             <select
-              className="form-select"
+              className="form-select mx-2"
               aria-label="Default select example"
               onChange={handelChange}
               name="assignedTo"
@@ -150,7 +156,7 @@ export default function CreateTask() {
               type="date"
               name="deadline"
               id="deadline"
-              className="form-control"
+              className="form-control mx-3"
               onChange={handelChange}
             />
           </div>

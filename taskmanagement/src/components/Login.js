@@ -2,29 +2,34 @@ import React from "react";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { getDatabase } from "firebase/database";
 import { auth } from "./firebase/firebase";
-import { Link ,useNavigate} from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
   const history = useNavigate();
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const { email, password } = e.target.elements;
     const authInstance = getAuth();
 
-    signInWithEmailAndPassword(authInstance, email.value, password.value)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log("Logged In", user);
-        history("/");
-        // Handle successful login, e.g., redirect to another page
-      })
-      .catch((error) => {
-        const errorMessage = error.message;
-        console.log("Error", errorMessage);
-        // Handle login error, display a message to the user, etc.
-      });
+    try {
+      const userCredential = await signInWithEmailAndPassword(authInstance, email.value, password.value);
+      const user = userCredential.user;
+
+      // Save the authentication token to local storage
+      localStorage.setItem("authToken", await user.getIdToken());
+
+
+
+      history("/");
+      window.alert("Login Successfull")
+      // Handle successful login, e.g., redirect to another page
+    } catch (error) {
+      const errorMessage = error.message;
+      console.log("Error", errorMessage);
+      // Handle login error, display a message to the user, etc.
+    }
   };
 
   return (
@@ -50,7 +55,9 @@ export default function Login() {
                 id="password"
                 className="my-2"
               />
-              <Link className="d-flex justify-content-end my-2" to="/ResetPassword">Forgot password ?</Link>
+              <Link className="d-flex justify-content-end my-2" to="/ResetPassword">
+                Forgot password ?
+              </Link>
               <button className="my-3" type="submit">
                 Sign In
               </button>

@@ -5,6 +5,7 @@ import { db } from "./firebase/firebase";
 import { onValue, ref } from "firebase/database";
 
 export default function Home() {
+  let authToken = localStorage.getItem("authToken");
   const [taskList, setTaskList] = useState({
     todo: {},
     inProgress: {},
@@ -43,15 +44,17 @@ export default function Home() {
   }, [taskList]);
 
   return (
+   
     <div className="container d-flex justify-content-between">
       {/* TO DO Column */}
       <div className="todo w-25 my-3">
         <div className="bg-primary p-3   rounded">To Do</div>
         {/* Render tasks from taskList based on their status */}
-        
-        {Object.entries(taskList.todo).map(([taskId, task]) => (
+        {!authToken ? <div className="container my-5"><h2 style={{    width: "27rem"}}>Please Login to View Tasks</h2></div> : Object.entries(taskList.todo).map(([taskId, task]) => (
   <Task key={taskId} taskId={taskId} title={task.title} description={task.description} />
 ))}
+
+
 
 
 
@@ -60,17 +63,19 @@ export default function Home() {
       {/* IN Progress Column */}
       <div className="inprogress w-25  my-3">
         <div className="bg-warning p-3 rounded">In Progress</div>
-        {Object.entries(taskList.inProgress).map(([taskId, task]) => (
+        {!authToken ? null : Object.entries(taskList.inProgress).map(([taskId, task]) => (
   <Task key={taskId} taskId={taskId} title={task.title} description={task.description} />
 ))}
+
       </div>
 
       {/* Done Column */}
       <div className="done w-25  my-3">
         <div className="bg-success p-3 rounded">Done</div>
-        {Object.entries(taskList.done).map(([taskId, task]) => (
+        {!authToken ? null : Object.entries(taskList.done).map(([taskId, task]) => (
   <Task key={taskId} taskId={taskId} title={task.title} description={task.description} />
 ))}
+
       </div>
 
       <div className="createTask  my-3 mx-1">

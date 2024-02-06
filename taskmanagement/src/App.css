@@ -37,6 +37,36 @@
 .container {
   display: flex;
   justify-content: space-between;
+<<<<<<< HEAD
+=======
+}
+
+
+
+@media only screen and (max-width: 768px) {
+  .container {
+    flex-direction: column-reverse;
+    /* Reverse the column direction */
+    align-items: flex-start;
+    /* Align items to the start */
+  }
+  .rounded{
+    width: 80dvw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .w-25 {
+    flex: 0 0 100%;
+    /* Take full width */
+    width: 100%;
+  }
+  .ml-auto{
+    display: flex;
+    flex-direction: row;
+  }
+>>>>>>> 1ca663af3a0df74c4a9993c7cc6599644728d365
 }
 
 

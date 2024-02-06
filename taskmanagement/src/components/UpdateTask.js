@@ -1,7 +1,11 @@
 import React from 'react'
 import {  useEffect, useState } from "react";
 import { getDatabase, ref, set, get, remove } from "firebase/database";
+<<<<<<< HEAD
 import { useNavigate} from "react-router-dom";
+=======
+import { Link ,useNavigate} from "react-router-dom";
+>>>>>>> 1ca663af3a0df74c4a9993c7cc6599644728d365
 import { db } from "./firebase/firebase";
 import { useParams } from 'react-router-dom';
 

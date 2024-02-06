@@ -13,7 +13,11 @@ export default function Navbar() {
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-mainbg">
+<<<<<<< HEAD
         <div className="container-fluid navcenter">
+=======
+        <div className="container-fluid">
+>>>>>>> 1ca663af3a0df74c4a9993c7cc6599644728d365
           <Link className="navbar-brand text-light">Task Manager</Link>
           <div className="other" id="navbarSupportedContent">
             <ul className="navbar-nav ml-auto">
@@ -35,7 +39,11 @@ export default function Navbar() {
               {authToken ? (
                 <li className="nav-item">
                   <Link className="nav-link" to="/Login" onClick={logout}>
+<<<<<<< HEAD
                     <i className="far fa-calendar-alt"></i>LogOut
+=======
+                    <i className="far fa-calendar-alt"></i>Log Out
+>>>>>>> 1ca663af3a0df74c4a9993c7cc6599644728d365
                   </Link>
                 </li>
               ) : null}

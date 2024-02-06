@@ -1,3 +1,4 @@
+/* Your existing CSS styles */
 .App {
   text-align: center;
 }
@@ -5,6 +6,10 @@
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+}
+
+.navbar {
+  max-width: 100%;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -28,11 +33,35 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+/* Adjusted CSS for grid layout */
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+
+@media only screen and (max-width: 768px) {
+  .container {
+    flex-direction: column-reverse;
+    /* Reverse the column direction */
+    align-items: flex-start;
+    /* Align items to the start */
   }
-  to {
-    transform: rotate(360deg);
+  .rounded{
+    width: 80dvw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .w-25 {
+    flex: 0 0 100%;
+    /* Take full width */
+    width: 100%;
+  }
+  .ml-auto{
+    display: flex;
+    flex-direction: row;
   }
 }

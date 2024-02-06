@@ -1,30 +1,48 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import "../Styles/Navbar.css"
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import "../Styles/Navbar.css";
+
 export default function Navbar() {
+  const history = useNavigate();
+  let authToken = localStorage.getItem("authToken");
+  const logout = () => {
+    localStorage.removeItem("authToken");
+    history("/Login");
+    window.alert("Logout Successfull");
+  };
   return (
     <div>
-        <nav className="navbar navbar-expand-custom navbar-mainbg">
-        <Link className="navbar-brand navbar-logo" to="/">Navbar</Link>
-        <button className="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <i className="fas fa-bars text-white"></i>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+      <nav className="navbar navbar-expand-lg navbar-mainbg">
+        <div className="container-fluid navcenter">
+          <Link className="navbar-brand text-light">Task Manager</Link>
+          <div className="other" id="navbarSupportedContent">
             <ul className="navbar-nav ml-auto">
-                <div className="hori-selector"><div className="left"></div><div className="right"></div></div>
+              {authToken ? (
                 <li className="nav-item">
-                    <Link className="nav-link" to="/"><i className="fas fa-tachometer-alt"></i>Home</Link>
+                  <Link className="nav-link " to="/">
+                    <i className="far fa-calendar-alt text-light"></i>Home
+                  </Link>
                 </li>
-
-
+              ) : null}
+              {!authToken && (
                 <li className="nav-item">
-                    <Link className="nav-link" to="/Register"><i className="far fa-calendar-alt"></i>Sign Up</Link>
+                  <Link className="nav-link" to="/Register">
+                    {" "}
+                    Sign Up
+                  </Link>
                 </li>
-
-
+              )}
+              {authToken ? (
+                <li className="nav-item">
+                  <Link className="nav-link" to="/Login" onClick={logout}>
+                    <i className="far fa-calendar-alt"></i>LogOut
+                  </Link>
+                </li>
+              ) : null}
             </ul>
+          </div>
         </div>
-    </nav>
+      </nav>
     </div>
-  )
+  );
 }

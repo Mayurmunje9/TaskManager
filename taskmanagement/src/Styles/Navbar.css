@@ -52,7 +52,7 @@ i {
 #navbarSupportedContent Link:not(:only-child):after {
 	content: "\f105";
 	position: absolute;
-	right: 20px;
+	right: 20pzx;
 	top: 10px;
 	font-size: 14px;
 	font-family: "Font Awesome 5 Free";

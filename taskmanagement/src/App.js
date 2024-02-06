@@ -27,7 +27,7 @@ function App() {
             element={
               <div>
                 <Navbar />
-                <div className="container">
+                <div >
                   <Register />
                 </div>
               </div>
@@ -38,7 +38,7 @@ function App() {
             element={
               <div>
                 <Navbar />
-                <div className="container">
+                <div >
                   <Login />
                 </div>
               </div>
@@ -49,7 +49,7 @@ function App() {
             element={
               <div>
                 <Navbar />
-                <div className="container">
+                <div >
                   <ResetPassword />
                 </div>
               </div>
@@ -60,7 +60,7 @@ function App() {
             element={
               <div>
                 <Navbar />
-                <div className="container">
+                <div >
                   <CreateTask />
                 </div>
               </div>

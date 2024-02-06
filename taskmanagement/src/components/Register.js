@@ -47,7 +47,6 @@ export default function Register() {
               </span>
             </div>
             <div className="form">
-              {/* Remove the inner form */}
               <input
                 type="text"
                 name="username"

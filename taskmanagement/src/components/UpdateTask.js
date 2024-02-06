@@ -1,15 +1,15 @@
 import React from 'react'
-import { useCallback, useEffect, useState } from "react";
-import { getDatabase, ref, set, get, push } from "firebase/database";
-import { v4 as uuidv4 } from "uuid";
-import { Link } from "react-router-dom";
+import {  useEffect, useState } from "react";
+import { getDatabase, ref, set, get, remove } from "firebase/database";
+import { useNavigate} from "react-router-dom";
 import { db } from "./firebase/firebase";
 import { useParams } from 'react-router-dom';
 
 
 export default function UpdateTask(params) {
- 
-
+  const history = useNavigate();
+const{id}=useParams();
+const id2=id;
     const [listUsers, setlistUsers] = useState([]);
     const [taskDetails, settaskDetails] = useState([]);
     const [taskData, settaskData] = useState({
@@ -45,8 +45,8 @@ export default function UpdateTask(params) {
         taskData.status.trim() !== ""
       );
     };
-    const id  = useParams();
     const getTaskDetails = () => {
+      console.log("id in get "+id)
         get(ref(db, `task/${id}`))
           .then((snapshot) => {
             if (snapshot.exists()) {
@@ -76,14 +76,11 @@ export default function UpdateTask(params) {
     const handleSubmit =async (e) => {
       const db=getDatabase()
       e.preventDefault();
-      console.log("id "+ id)
-      await set(ref(db,`tasks/${id}`),taskData)
+      console.log("id in set "+ id2)
       if (!isValidData()) {
         console.error("Invalid data. Please check your inputs.");
         return;
       }
-
-   
       const dbRef = ref(db, `task/${id}`);
       set(dbRef, {
         title: `${taskData.title}`,
@@ -94,20 +91,35 @@ export default function UpdateTask(params) {
       })
         .then(() => {
           console.log("Task added successfully to Firebase");
+          history('/')
+          window.alert("Task Updated Successfully ")
         })
         .catch((error) => {
           console.error("Error writing to Firebase:", error);
         });
     };
-  
+    const handleDelete = () => {
+      console.log("Id in delete " + id2);
+      const taskRef = ref(db, "task/" + id2);
+      remove(taskRef)
+        .then(() => {
+          console.log("Deleted successfully");
+          window.alert("Deleted uccessfully ")
+          history('/')
+        })
+        .catch((error) => {
+          console.error("Error deleting:", error);
+        });
+    };
+    
     const handelChange = (e) => {
       settaskData({ ...taskData, [e.target.name]: e.target.value });
       console.log(taskData);
     };
   
     return (
-      <div className='container my-4'>
-        <form>
+      <div className='mx-3 my-4'>
+        <form style={{maxWidth:"100dvw"}}> 
           <div className="mb-3">
             <label htmlFor="text" className="form-label">
               Email address
@@ -159,7 +171,7 @@ export default function UpdateTask(params) {
                 Assigned User
               </label>
               <select
-                className="form-select"
+                className="form-select mx-2"
                 aria-label="Default select example"
                 onChange={handelChange}
                 value={taskData.assignedTo}
@@ -184,22 +196,26 @@ export default function UpdateTask(params) {
                 type="date"
                 name="deadline"
                 id="deadline"
-                className="form-control"
+                className="form-control mx-3"
                 onChange={handelChange}
                 value={taskData.deadline}
               />
             </div>
           </div>
-          <div className="createTask">
-            <Link
-              className="rounded btn btn-dark"
+          <div className="buttons   ">
+          <div className="createTask d-flex flex-row">
+            <button
+            style={{maxWidth:"20rem"}}
+              className="rounded btn btn-outline-success mx-4"
               to="/CreateTask"
               onMouseOver={handelChange}
               type="submit"
               onClick={handleSubmit}
             >
-              Add Task
-            </Link>
+              Update Task
+            </button>
+            <button    style={{maxWidth:"20rem"}} type="button" className="btn btn-outline-danger" onClick={handleDelete}>Delete Task</button>
+            </div>
           </div>
         </form>
       </div>
